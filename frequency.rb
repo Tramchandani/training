@@ -1,14 +1,11 @@
 #!/urs/bin/ruby -w
 
 hash = {}
-str = String.new("aabbbcddeac")
+hash.default = 0
+str = "aabbbcddeac"
 
 str.each_char do |character|
-  if hash.has_key?(character)
-    hash[character] = hash[character] + 1;
-  else
-    hash[character] = 1;
-  end
+  hash[character] = hash[character] + 1;
 end
 
 puts "#{hash}"
