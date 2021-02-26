@@ -1,18 +1,16 @@
 module Mod
-
-  def Mod.roundoff(num)
+  def self.roundoff(num)
     num.round(2)
   end
 
-  def Mod.total(a, b, c = 0)
-    a+b+c
+  def self.total(a, b, c = 0)
+    a + b + c
   end
-
 end
 
 class Sales
   include Mod
-  @@non_taxable = ["book", "chocolate","chocolates", "pills"]
+  @@non_taxable = %w(book chocolate chocolates pills)
 
   def initialize
     @input = []
@@ -21,7 +19,6 @@ class Sales
   end
 
   def add(item)
-    #puts item
     @input.push(item)
   end
 
@@ -29,25 +26,25 @@ class Sales
     @input.each do |i|
       flag = 0
       item_tax = 0
-      output = i.split()	
-      qty = (output[0]).chomp.to_i
-      amt = (output[-1]).chomp.to_f
-      item_total = qty*amt
-      if qty <= 0 || amt <=0.0
+      output = i.split	
+      qty = output[0].chomp.to_i
+      amt = output[-1].chomp.to_f
+      item_total = qty * amt
+      if qty <= 0 || amt <= 0.0
         puts "invalid input"
         break
       end
-      item_tax += item_total*0.05 if output.include?("imported")
+      item_tax += item_total * 0.05 if output.include?("imported")
       output.each do |o|
         if @@non_taxable.include?(o)
           flag = 1
           break
         end
       end
-      output.pop()
       output.pop
-      output.each { |o| print "#{o} "}
-      item_tax += item_total*0.1 if flag == 0
+      output.pop
+      output.each { |o| print "#{o} " }
+      item_tax += item_total * 0.1 if flag == 0
       @tax = Mod.total(@tax ,item_tax )
       @tax = Mod.roundoff(@tax)
       @total = Mod.total(@total, item_total, item_tax)
@@ -64,15 +61,15 @@ class Sales
 end
 
 
-  s = Sales.new 
-  ans = 'y'
-  while ans != 'n' do
-    i = gets()
-    s.add(i)
-    puts "more items in basket?"
-    ans = gets()
-    ans = ans.chomp
-  end 
-  s.calculate
-  s.print_result
+s = Sales.new 
+ans = 'y'
+while ans != 'n' do
+  i = gets
+  s.add(i)
+  puts "more items in basket?"
+  ans = gets
+  ans = ans.chomp
+end 
+s.calculate
+s.print_result
 
